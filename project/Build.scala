@@ -2,18 +2,13 @@ import sbt._
 import Keys._
 import play.Project._
 
-object ApplicationBuild extends Build {
+object Build extends Build {
 
-  val appName = "todolist"
-  val appVersion = "1.0-SNAPSHOT"
-
-  val appDependencies = Seq(
-    "org.postgresql" % "postgresql" % "9.2-1003-jdbc4",
-    jdbc,
-    anorm
+  val dependencies = Seq(
+    "com.google.guava" % "guava" % "14.0.1",
+    "com.google.code.findbugs" % "jsr305" % "1.3.9", // Guava's provided dependency but seems scalac needs it
+    "com.google.zxing" % "javase" % "2.2"
   )
 
-  val main = play.Project(appName, appVersion, appDependencies).settings(
-    // Add your own project settings here      
-  )
+  val main = play.Project("mkqrcode", "1.0-SNAPSHOT", dependencies)
 }
