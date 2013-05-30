@@ -21,7 +21,7 @@ object Application extends Controller {
   )
 
   def index = Action {
-    val contents = "https://abc.de/cps?r=1234567890123456789012345678901234567890123456789012345678901234"
+    val contents = "https://abc.de/cps/1234567890123456789012345678901234567890123456789012345678901234".toUpperCase
     val size = 250
     val errorCorrectionLevel = ErrorCorrectionLevel.H
 
