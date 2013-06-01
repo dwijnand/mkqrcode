@@ -1,8 +1,37 @@
-@(qrCodeString: String)
+@(result: Option[(Params, String)], paramsForm: Form[Params])
 
+@import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 @import helper._
 
 @main("Make QR Code") {
-<h1>Welcome to Make QR Code</h1>
-<img src="data:image/png;base64,@qrCodeString"/>
+  <h1>Welcome to Make QR Code</h1>
+
+  <div>
+  @result match {
+    case Some((params, qrCodeString)) => {
+      <div>
+        <img src="data:image/png;base64,@qrCodeString"/>
+      </div>
+
+      Using:
+      <ul>
+        <li>Contents: @(if (params.uppercase) params.contents.toUpperCase else params.contents)</li>
+        <li>Size: @params.size x @params.size</li>
+        <li>ErrorCorrectionLevel: @params.errorCorrectionLevel</li>
+      </ul>
+    }
+    case None => {}
+  }
+  </div>
+
+  <div>
+    Generate:
+    @form(routes.Application.index()) {
+      @inputText(paramsForm("contents"), '_label -> "Contents")
+      @inputText(paramsForm("size"), '_label -> "Size")
+      @checkbox(paramsForm("uppercase"), '_label -> "Uppercase")
+      @inputRadioGroup(paramsForm("errorCorrectionLevel"), ErrorCorrectionLevel.values().map(e => {val n = e.name(); (n, n)}))
+      <input type="submit" value="Generate">
+      }
+  </div>
 }

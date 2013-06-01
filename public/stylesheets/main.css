@@ -2,3 +2,11 @@ body {
   width: 960px;
   margin: 0 auto;
 }
+
+.info {
+  display: none;
+}
+
+input#contents {
+  width: 960px;
+}
