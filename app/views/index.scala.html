@@ -12,7 +12,7 @@
     @result match {
       case Some((params, qrCodeString)) => {
         <div>
-          <img src="data:image/png;base64,@qrCodeString"/>
+          <img src="data:image/png;base64,@qrCodeString" class="img-polaroid">
         </div>
 
         Using:
@@ -28,13 +28,13 @@
 
     <div>
       Generate:
-      @form(routes.Application.index()) {
-        @inputText(paramsForm("contents"), '_label -> "Contents")
+      @form(routes.Application.index(), 'class -> "form-inline") {
+        @inputText(paramsForm("contents"), '_label -> "Contents", 'class -> "input-xxlarge")
         @inputText(paramsForm("size"), '_label -> "Size")
         @checkbox(paramsForm("uppercase"), '_label -> "Uppercase")
         @inputRadioGroup(paramsForm("errorCorrectionLevel"),
           ErrorCorrectionLevel.values().map(ecl => (ecl.name(), ecl.name())), '_label -> "ErrorCorrectionLevel")
-        <input type="submit" value="Generate">
+        <input type="submit" class="btn btn-primary" value="Generate">
         }
     </div>
   </div>
