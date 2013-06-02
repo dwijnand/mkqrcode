@@ -1,0 +1,11 @@
+Alphanumeric mode:
+dataBitsSize = 11 bits per 2 chars, 6 bits for last, odd char
+
+provBitsNeeded = 4 + 9 + dataBits.size()
+provVersion = fn(bitsNeeded, ecLevel)
+
+bitsNeeded = 4 + fn(version) + dataBits.size()
+1  <= v <= 9  -> 9
+9  <  v <= 26 -> 11
+26 <  v       -> 13
+version = fun(bitsNeeded, ecLevel)
