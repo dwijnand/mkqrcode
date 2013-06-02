@@ -32,7 +32,8 @@
         @inputText(paramsForm("contents"), '_label -> "Contents")
         @inputText(paramsForm("size"), '_label -> "Size")
         @checkbox(paramsForm("uppercase"), '_label -> "Uppercase")
-        @inputRadioGroup(paramsForm("errorCorrectionLevel"), ErrorCorrectionLevel.values().map(e => {val n = e.name(); (n, n)}))
+        @inputRadioGroup(paramsForm("errorCorrectionLevel"),
+          ErrorCorrectionLevel.values().map(ecl => (ecl.name(), ecl.name())), '_label -> "ErrorCorrectionLevel")
         <input type="submit" value="Generate">
         }
     </div>
