@@ -1,6 +1,8 @@
 package controllers
 
 import collection.JavaConverters._
+import reflect.ClassTag
+
 import com.google.common.io.BaseEncoding
 import com.google.zxing.{EncodeHintType, BarcodeFormat}
 import com.google.zxing.client.j2se.MatrixToImageWriter
@@ -22,12 +24,13 @@ object Application extends Controller {
   val qrCodeWriter = new QRCodeWriter
   val encodingHints = Map(EncodeHintType.CHARACTER_SET -> "UTF-8")
 
-  def enumFormat[T <: Enum[T]](enumType: Class[T]): Formatter[T] = new Formatter[T] {
+  def enumFormat[T <: Enum[T]](implicit m: ClassTag[T]) = new Formatter[T] {
+    val enumType = m.runtimeClass.asInstanceOf[Class[T]]
     def bind(key: String, data: Map[String, String]) = stringFormat.bind(key, data).right.map(s => Enum.valueOf(enumType, s))
     def unbind(key: String, value: T): Map[String, String] = Map(key -> value.name())
   }
 
-  def enum[T <: Enum[T]](enumType: Class[T]) = of(enumFormat(classOf[ErrorCorrectionLevel]))
+  def enum[T <: Enum[T]](implicit m: ClassTag[T]) = of(enumFormat[T])
 
   val initialParams = Params("https://www.powatag.com/cps/1234567890", 100, uppercase = true, ErrorCorrectionLevel.L)
 
@@ -36,7 +39,7 @@ object Application extends Controller {
       "contents" -> nonEmptyText,
       "size" -> number,
       "uppercase" -> boolean,
-      "errorCorrectionLevel" -> enum(classOf[ErrorCorrectionLevel])
+      "errorCorrectionLevel" -> enum[ErrorCorrectionLevel]
     )(Params.apply)(Params.unapply)
   )
 
