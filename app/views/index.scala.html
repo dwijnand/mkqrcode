@@ -28,11 +28,10 @@
     <div>
       Generate:
       @form(routes.Application.index(), 'class -> "form-inline") {
-        @inputText(paramsForm("contents"), '_label -> "Contents", 'class -> "input-xxlarge")
-        @inputText(paramsForm("size"), '_label -> "Size")
-        @checkbox(paramsForm("uppercase"), '_label -> "Uppercase")
-        @inputRadioGroup(paramsForm("errorCorrectionLevel"), Application.errorCorrectionLevels,
-          '_label -> "ErrorCorrectionLevel")
+        @inputText(paramsForm("contents"), 'class -> "input-xxlarge")
+        @inputText(paramsForm("size"))
+        @checkbox(paramsForm("uppercase"))
+        @inputRadioGroup(paramsForm("errorCorrectionLevel"), Application.errorCorrectionLevels)
         <input type="submit" class="btn btn-primary" value="Generate">
         }
     </div>
