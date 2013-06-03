@@ -44,7 +44,7 @@ object Application extends Controller {
   def post = Action {
     implicit request =>
       paramsForm.bindFromRequest().fold(
-        formWithErrors => BadRequest(views.html.home(None, formWithErrors)),
+        formWithErrors => BadRequest(views.html.Application.home(None, formWithErrors)),
         params => Redirect(routes.Application.home().url, request.body.asFormUrlEncoded.get)
       )
   }
@@ -60,6 +60,6 @@ object Application extends Controller {
     val bytes = byteArrayOutputStream.toByteArray
     val qrCodeString = BaseEncoding.base64().encode(bytes)
 
-    views.html.home(Some((p, qrCodeString)), paramsForm.fill(p))
+    views.html.Application.home(Some((p, qrCodeString)), paramsForm.fill(p))
   }
 }
