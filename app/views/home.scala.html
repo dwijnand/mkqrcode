@@ -3,7 +3,7 @@
 @import helper._
 @import helper.twitterBootstrap._
 
-@main("Make QR Code") {
+@base("Make QR Code") {
   <div class="container">
     <h1>Welcome to Make QR Code</h1>
 
@@ -27,7 +27,7 @@
 
     <div>
       Generate:
-      @form(routes.Application.index(), 'class -> "form-inline") {
+      @form(routes.Application.post(), 'class -> "form-inline") {
         @inputText(paramsForm("contents"), 'class -> "input-xxlarge")
         @inputText(paramsForm("size"))
         @checkbox(paramsForm("uppercase"))

@@ -29,6 +29,8 @@ object Application extends Controller {
 
   def enum[T <: Enum[T]](enumType: Class[T]) = of(enumFormat(classOf[ErrorCorrectionLevel]))
 
+  val initialParams = Params("https://www.powatag.com/cps/1234567890", 100, uppercase = true, ErrorCorrectionLevel.L)
+
   val paramsForm = Form(
     mapping(
       "contents" -> nonEmptyText,
@@ -38,11 +40,19 @@ object Application extends Controller {
     )(Params.apply)(Params.unapply)
   )
 
-  def index = Action {
+  def home = Action {
     implicit request =>
       paramsForm.bindFromRequest.fold(
-        formWithErrors => BadRequest(views.html.index(None, formWithErrors)),
+        formWithErrors => Ok(render(initialParams)),
         params => Ok(render(params))
+      )
+  }
+
+  def post = Action {
+    implicit request =>
+      paramsForm.bindFromRequest().fold(
+        formWithErrors => BadRequest(views.html.home(None, formWithErrors)),
+        params => Redirect(routes.Application.home().url, request.body.asFormUrlEncoded.get)
       )
   }
 
@@ -57,7 +67,7 @@ object Application extends Controller {
     val bytes = byteArrayOutputStream.toByteArray
     val qrCodeString = BaseEncoding.base64().encode(bytes)
 
-    views.html.index(Some((p, qrCodeString)), paramsForm.fill(p))
+    views.html.home(Some((p, qrCodeString)), paramsForm.fill(p))
   }
 
   val errorCorrectionLevels = ErrorCorrectionLevel.values().map(_ match {
