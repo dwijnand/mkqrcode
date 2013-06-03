@@ -2,3 +2,7 @@ contents=Contents
 size=Size
 uppercase=Uppercase
 errorCorrectionLevel=ErrorCorrectionLevel
+com.google.zxing.qrcode.decoder.ErrorCorrectionLevel.L=Low
+com.google.zxing.qrcode.decoder.ErrorCorrectionLevel.M=Medium
+com.google.zxing.qrcode.decoder.ErrorCorrectionLevel.Q=Quartile
+com.google.zxing.qrcode.decoder.ErrorCorrectionLevel.H=High

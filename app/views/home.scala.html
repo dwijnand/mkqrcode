@@ -1,7 +1,9 @@
 @(result: Option[(Params, String)], paramsForm: Form[Params])
 
+@import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 @import helper._
 @import helper.twitterBootstrap._
+@import views.utils._
 
 @base("Make QR Code") {
   <div class="container">
@@ -31,7 +33,7 @@
         @inputText(paramsForm("contents"), 'class -> "input-xxlarge")
         @inputText(paramsForm("size"))
         @checkbox(paramsForm("uppercase"))
-        @inputRadioGroup(paramsForm("errorCorrectionLevel"), Application.errorCorrectionLevels)
+        @inputRadioGroup(paramsForm("errorCorrectionLevel"), enumOptions[ErrorCorrectionLevel])
         <input type="submit" class="btn btn-primary" value="Generate">
         }
     </div>

@@ -62,11 +62,4 @@ object Application extends Controller {
 
     views.html.home(Some((p, qrCodeString)), paramsForm.fill(p))
   }
-
-  val errorCorrectionLevels = ErrorCorrectionLevel.values().map(_ match {
-    case ErrorCorrectionLevel.L => ("L", "Low")
-    case ErrorCorrectionLevel.M => ("M", "Medium")
-    case ErrorCorrectionLevel.Q => ("Q", "Quartile")
-    case ErrorCorrectionLevel.H => ("H", "High")
-  })
 }
