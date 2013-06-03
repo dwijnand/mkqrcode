@@ -1,7 +1,6 @@
 package controllers
 
 import collection.JavaConverters._
-import reflect.ClassTag
 
 import com.google.common.io.BaseEncoding
 import com.google.zxing.{EncodeHintType, BarcodeFormat}
@@ -11,9 +10,8 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import models.Params
 import play.api.data._
 import play.api.data.Forms._
-import play.api.data.format._
-import play.api.data.format.Formats._
 import play.api.mvc._
+import utils._
 
 import java.io.ByteArrayOutputStream
 import java.util.Locale
@@ -23,14 +21,6 @@ object Application extends Controller {
   val locale = Locale.ENGLISH
   val qrCodeWriter = new QRCodeWriter
   val encodingHints = Map(EncodeHintType.CHARACTER_SET -> "UTF-8")
-
-  def enumFormat[T <: Enum[T]](implicit m: ClassTag[T]) = new Formatter[T] {
-    val enumType = m.runtimeClass.asInstanceOf[Class[T]]
-    def bind(key: String, data: Map[String, String]) = stringFormat.bind(key, data).right.map(s => Enum.valueOf(enumType, s))
-    def unbind(key: String, value: T): Map[String, String] = Map(key -> value.name())
-  }
-
-  def enum[T <: Enum[T]](implicit m: ClassTag[T]) = of(enumFormat[T])
 
   val initialParams = Params("https://www.powatag.com/cps/1234567890", 100, uppercase = true, ErrorCorrectionLevel.L)
 
