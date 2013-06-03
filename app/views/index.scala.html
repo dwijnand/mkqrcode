@@ -1,6 +1,5 @@
 @(result: Option[(Params, String)], paramsForm: Form[Params])
 
-@import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 @import helper._
 @import helper.twitterBootstrap._
 
@@ -32,8 +31,8 @@
         @inputText(paramsForm("contents"), '_label -> "Contents", 'class -> "input-xxlarge")
         @inputText(paramsForm("size"), '_label -> "Size")
         @checkbox(paramsForm("uppercase"), '_label -> "Uppercase")
-        @inputRadioGroup(paramsForm("errorCorrectionLevel"),
-          ErrorCorrectionLevel.values().map(ecl => (ecl.name(), ecl.name())), '_label -> "ErrorCorrectionLevel")
+        @inputRadioGroup(paramsForm("errorCorrectionLevel"), Application.errorCorrectionLevels,
+          '_label -> "ErrorCorrectionLevel")
         <input type="submit" class="btn btn-primary" value="Generate">
         }
     </div>
