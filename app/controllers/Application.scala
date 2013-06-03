@@ -20,10 +20,7 @@ import javax.imageio.ImageIO
 object Application extends Controller {
   val locale = Locale.ENGLISH
   val qrCodeWriter = new QRCodeWriter
-  val encodingHints = Map(
-    EncodeHintType.CHARACTER_SET -> "UTF-8",
-    EncodeHintType.MARGIN -> 1
-  )
+  val encodingHints = Map(EncodeHintType.CHARACTER_SET -> "UTF-8")
 
   def enumFormat[T <: Enum[T]](enumType: Class[T]): Formatter[T] = new Formatter[T] {
     def bind(key: String, data: Map[String, String]) = stringFormat.bind(key, data).right.map(s => Enum.valueOf(enumType, s))
