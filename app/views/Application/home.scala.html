@@ -21,6 +21,8 @@
           <li>Contents: @(if(qrRequest.uppercase) qrRequest.contents.toUpperCase else qrRequest.contents)</li>
           <li>Size: @qrRequest.size x @qrRequest.size</li>
           <li>ErrorCorrectionLevel: @qrRequest.ecLevel</li>
+          <li>Mode: @qrCode.getMode</li>
+          <li>Version: @qrCode.getVersion.getVersionNumber</li>
         </ul>
       }
       case None => {}
