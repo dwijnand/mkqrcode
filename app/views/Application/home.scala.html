@@ -1,4 +1,4 @@
-@(result: Option[(Params, String)], paramsForm: Form[Params])
+@(result: Option[models.Response], paramsForm: Form[models.Request])
 
 @import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 @import views.html.helper.{checkbox => _, inputRadioGroup => _, _}
@@ -11,16 +11,16 @@
     <h1>Welcome to Make QR Code</h1>
 
     @result match {
-      case Some((params, qrCodeString)) => {
+      case Some(Response(qrRequest, qrCode, qrCodeString)) => {
         <div>
           <img src="data:image/png;base64,@qrCodeString" class="img-polaroid">
         </div>
 
         Using:
         <ul>
-          <li>Contents: @(if(params.uppercase) params.contents.toUpperCase else params.contents)</li>
-          <li>Size: @params.size x @params.size</li>
-          <li>ErrorCorrectionLevel: @params.ecLevel</li>
+          <li>Contents: @(if(qrRequest.uppercase) qrRequest.contents.toUpperCase else qrRequest.contents)</li>
+          <li>Size: @qrRequest.size x @qrRequest.size</li>
+          <li>ErrorCorrectionLevel: @qrRequest.ecLevel</li>
         </ul>
       }
       case None => {}
