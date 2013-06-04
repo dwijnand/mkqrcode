@@ -1,8 +1,8 @@
 @(result: Option[(Params, String)], paramsForm: Form[Params])
 
 @import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
-@import helper.{checkbox => _, inputRadioGroup => _, _}
-@import helper.twitterBootstrap2._
+@import views.html.helper.{checkbox => _, inputRadioGroup => _, _}
+@import views.html.helper.twitterBootstrap2._
 @import views.helper.twitterBootstrap2._
 @import views.utils._
 
@@ -20,7 +20,7 @@
         <ul>
           <li>Contents: @(if(params.uppercase) params.contents.toUpperCase else params.contents)</li>
           <li>Size: @params.size x @params.size</li>
-          <li>ErrorCorrectionLevel: @params.errorCorrectionLevel</li>
+          <li>ErrorCorrectionLevel: @params.ecLevel</li>
         </ul>
       }
       case None => {}
@@ -32,7 +32,7 @@
         @inputText(paramsForm("contents"), 'class -> "input-xxlarge")
         @inputText(paramsForm("size"))
         @checkbox(paramsForm("uppercase"))
-        @inputRadioGroup(paramsForm("errorCorrectionLevel"), enumOptions[ErrorCorrectionLevel])
+        @inputRadioGroup(paramsForm("ecLevel"), enumOptions[ErrorCorrectionLevel])
         <div class="form-actions">
           <input type="submit" class="btn btn-primary" value="Generate">
         </div>
