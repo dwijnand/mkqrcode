@@ -34,20 +34,18 @@ object Application extends Controller {
   )
 
   def home = Action {
-    implicit request =>
-      paramsForm.bindFromRequest.fold(
-        formWithErrors => Ok(render(initialParams)),
-        params => Ok(render(params))
-      )
+    implicit request => {
+      request.queryString.size match {
+        case 0 => Ok(views.html.Application.home(None, paramsForm.fill(initialParams)))
+        case _ => paramsForm.bindFromRequest.fold(
+          formWithErrors => BadRequest(views.html.Application.home(None, formWithErrors)),
+          params => Ok(render(params))
+        )
+      }
+    }
   }
 
-  def post = Action {
-    implicit request =>
-      paramsForm.bindFromRequest().fold(
-        formWithErrors => BadRequest(views.html.Application.home(None, formWithErrors)),
-        params => Redirect(routes.Application.home().url, request.body.asFormUrlEncoded.get)
-      )
-  }
+  def post = Action(request => Redirect(routes.Application.home().url, request.body.asFormUrlEncoded.get))
 
   def render(p: Params) = {
     val encodingHints = this.encodingHints + (EncodeHintType.ERROR_CORRECTION -> p.errorCorrectionLevel)
