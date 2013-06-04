@@ -1,15 +1,15 @@
 @(result: Option[(Params, String)], paramsForm: Form[Params])
 
 @import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
-@import helper._
-@import helper.twitterBootstrap._
+@import helper.{checkbox => _, inputRadioGroup => _, _}
+@import helper.twitterBootstrap2._
+@import views.helper.twitterBootstrap2._
 @import views.utils._
 
 @base("Make QR Code") {
   <div class="container">
     <h1>Welcome to Make QR Code</h1>
 
-    <div>
     @result match {
       case Some((params, qrCodeString)) => {
         <div>
@@ -25,17 +25,18 @@
       }
       case None => {}
     }
-    </div>
 
-    <div>
-      Generate:
-      @form(routes.Application.post(), 'class -> "form-inline") {
+    @form(routes.Application.post(), 'class -> "form-horizontal") {
+      <fieldset>
+        <legend>Generate:</legend>
         @inputText(paramsForm("contents"), 'class -> "input-xxlarge")
         @inputText(paramsForm("size"))
         @checkbox(paramsForm("uppercase"))
         @inputRadioGroup(paramsForm("errorCorrectionLevel"), enumOptions[ErrorCorrectionLevel])
-        <input type="submit" class="btn btn-primary" value="Generate">
-        }
-    </div>
+        <div class="form-actions">
+          <input type="submit" class="btn btn-primary" value="Generate">
+        </div>
+      </fieldset>
+    }
   </div>
 }
