@@ -22,9 +22,10 @@ import javax.imageio.ImageIO
 object Application extends Controller {
   private[this] val locale = Locale.ENGLISH
   private[this] val qrCodeWriter = new QRCodeWriter
-  private[this] val encodingHints = Map(EncodeHintType.CHARACTER_SET -> "UTF-8")
+  private[this] val encodingHints: Map[EncodeHintType, _] = Map(EncodeHintType.CHARACTER_SET -> "UTF-8")
 
-  private[this] val initialParams = Params("https://www.powatag.com/cps/1234567890", 100, uppercase = true, ErrorCorrectionLevel.L)
+  private[this] val initialParams =
+    Params("https://www.powatag.com/cps/1234567890", 100, uppercase = true, ErrorCorrectionLevel.L)
 
   private[this] val paramsForm = Form(
     mapping(
