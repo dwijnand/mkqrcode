@@ -20,7 +20,7 @@
         <ul>
           <li>Contents: @(if(qrRequest.uppercase) qrRequest.contents.toUpperCase else qrRequest.contents)</li>
           <li>Size: @qrRequest.size x @qrRequest.size</li>
-          <li>ErrorCorrectionLevel: @qrRequest.ecLevel</li>
+          <li>Error Correction Level: @Messages(qrRequest.ecLevel.getClass.getName + '.' + qrRequest.ecLevel.name)</li>
           <li>Mode: @qrCode.getMode</li>
           <li>Version: @qrCode.getVersion.getVersionNumber</li>
           <li>Code Size: @qrCode.getMatrix.getHeight x @qrCode.getMatrix.getWidth</li>
