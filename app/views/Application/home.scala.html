@@ -23,6 +23,7 @@
           <li>ErrorCorrectionLevel: @qrRequest.ecLevel</li>
           <li>Mode: @qrCode.getMode</li>
           <li>Version: @qrCode.getVersion.getVersionNumber</li>
+          <li>Code Size: @qrCode.getMatrix.getHeight x @qrCode.getMatrix.getWidth</li>
         </ul>
       }
       case None => {}
