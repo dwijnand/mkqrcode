@@ -25,8 +25,8 @@ object QREncoder {
     val quietZoneAny = hints.getOrElse(EncodeHintType.MARGIN, 4)
     val quietZone = quietZoneAny.asInstanceOf[Int]
 
-    val inputWidth: Int = input.getWidth
-    val inputHeight: Int = input.getHeight
+    val inputWidth = input.getWidth
+    val inputHeight = input.getHeight
     val qrWidth = inputWidth + (quietZone << 1)
     val qrHeight = inputHeight + (quietZone << 1)
     val outputWidth = Math.max(width, qrWidth)
