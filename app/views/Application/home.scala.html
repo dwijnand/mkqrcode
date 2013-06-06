@@ -8,15 +8,18 @@
 
 @base("Make QR Code") {
   <div class="container">
+    <header>
     <h1>Welcome to Make QR Code</h1>
-
+	</header>
     @result match {
       case Some(Response(qrRequest, qrCode, qrCodeString)) => {
-        <div>
-          <img src="data:image/png;base64,@qrCodeString" class="img-polaroid">
-        </div>
+      <article>
+        <div class="span5 right qrWrapper">
+            <div class="qrCont">
+              <img src="data:image/png;base64,@qrCodeString" class="img-polaroid">
+            </div>
 
-        Using:
+        <h3>Using:</h3>
         <ul>
           <li>Contents: @(if(qrRequest.uppercase) qrRequest.contents.toUpperCase else qrRequest.contents)</li>
           <li>Size: @qrRequest.size x @qrRequest.size</li>
@@ -25,14 +28,16 @@
           <li>Version: @qrCode.getVersion.getVersionNumber</li>
           <li>Code Size: @qrCode.getMatrix.getHeight x @qrCode.getMatrix.getWidth</li>
         </ul>
+        </div>
       }
       case None => {}
     }
-
+ 	<div class="span7 left">
     @form(routes.Application.post(), 'class -> "form-horizontal") {
+   
       <fieldset>
         <legend>Generate:</legend>
-        @inputText(paramsForm("contents"), 'class -> "input-xxlarge")
+        @inputText(paramsForm("contents"), 'class -> "input-xlarge")
         @inputText(paramsForm("size"))
         @checkbox(paramsForm("uppercase"))
         @inputRadioGroup(paramsForm("ecLevel"), enumOptions[ErrorCorrectionLevel])
@@ -40,6 +45,8 @@
           <input type="submit" class="btn btn-primary" value="Generate">
         </div>
       </fieldset>
+      </div>
+      </article>
     }
   </div>
 }
