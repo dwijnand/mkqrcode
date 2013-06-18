@@ -1,20 +1,16 @@
 package controllers
 
-
-import com.google.common.io.BaseEncoding
 import com.google.zxing.EncodeHintType
-import com.google.zxing.client.j2se.MatrixToImageWriter
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
-import play.api.data._
+
 import play.api.data.Forms._
+import play.api.data._
 import play.api.mvc._
 
 import controllers.utils._
 import models.{Request, Response}
 
-import java.io.ByteArrayOutputStream
 import java.util.Locale
-import javax.imageio.ImageIO
 
 object Application extends Controller {
   private[this] val locale = Locale.ENGLISH
@@ -51,12 +47,7 @@ object Application extends Controller {
     val data = if (r.uppercase) r.contents.toUpperCase(locale) else r.contents
 
     val qrCode = QREncoder.encode(data, encodingHints)
-    val bitMatrix = QREncoder.render(qrCode, r.size, r.size, encodingHints)
-    val bufferedImage = MatrixToImageWriter.toBufferedImage(bitMatrix)
-    val byteArrayOutputStream = new ByteArrayOutputStream()
-    ImageIO.write(bufferedImage, "png", byteArrayOutputStream)
-    val bytes = byteArrayOutputStream.toByteArray
-    val qrCodeString = BaseEncoding.base64().encode(bytes)
+    val qrCodeString = QREncoder.render(qrCode, encodingHints, r.size)
     val response = Response(r, qrCode, qrCodeString)
 
     views.html.Application.home(Some(response), form.fill(r))
