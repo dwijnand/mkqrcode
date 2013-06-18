@@ -34,7 +34,7 @@ object QREncoder {
     val quietZoneAny = hints.getOrElse(EncodeHintType.MARGIN, 4)
     val quietZone = quietZoneAny.asInstanceOf[Int]
 
-    val bitMatrix = toBitMatrix(input, outputSize = input.getWidth, padding = 0, pixelSize = 1)
+    val bitMatrix = toBitMatrix(input, padding = 0)
 
     val bufferedImage = MatrixToImageWriter.toBufferedImage(bitMatrix)
     val scaledImage = bufferedImage.getScaledInstance(size, size, Image.SCALE_FAST)
@@ -56,7 +56,8 @@ object QREncoder {
     BaseEncoding.base64().encode(bytes)
   }
 
-  private[this] def toBitMatrix(input: ByteMatrix, outputSize: Int, padding: Int, pixelSize: Int) = {
+  private[this] def toBitMatrix(input: ByteMatrix, padding: Int) = {
+    val outputSize = input.getWidth + padding * 2
     val output = new BitMatrix(outputSize, outputSize)
     val inputSize = input.getWidth
 
@@ -67,13 +68,13 @@ object QREncoder {
       var outputX = padding
       while (inputX < inputSize) {
         if (input.get(inputX, inputY) == 1) {
-          output.setRegion(outputX, outputY, pixelSize, pixelSize)
+          output.setRegion(outputX, outputY, 1, 1)
         }
         inputX += 1
-        outputX += pixelSize
+        outputX += 1
       }
       inputY += 1
-      outputY += pixelSize
+      outputY += 1
     }
 
     output
