@@ -34,19 +34,15 @@ object QREncoder {
     val quietZoneAny = hints.getOrElse(EncodeHintType.MARGIN, 4)
     val quietZone = quietZoneAny.asInstanceOf[Int]
 
-    val bitMatrix = toBitMatrix(input, padding = 0)
+    val bitMatrix = toBitMatrix(input, padding = quietZone)
 
     val bufferedImage = MatrixToImageWriter.toBufferedImage(bitMatrix)
     val scaledImage = bufferedImage.getScaledInstance(size, size, Image.SCALE_FAST)
 
-    val finalSize = scaledImage.getWidth(null) + quietZone * 2
-    val bi = new BufferedImage(finalSize, finalSize, BufferedImage.TYPE_BYTE_BINARY)
+    val bi = new BufferedImage(scaledImage.getWidth(null), scaledImage.getHeight(null), BufferedImage.TYPE_BYTE_BINARY)
 
     val g = bi.createGraphics()
-    g.setColor(Color.WHITE)
-    g.fillRect(0, 0, finalSize, finalSize)
-    g.setColor(Color.BLACK)
-    g.drawImage(scaledImage, quietZone, quietZone, null)
+    g.drawImage(scaledImage, 0, 0, null)
     g.dispose()
 
     val byteArrayOutputStream = new ByteArrayOutputStream()
