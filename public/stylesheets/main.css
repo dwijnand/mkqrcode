@@ -1,32 +1,41 @@
 span.help-block {
   display: none;
 }
-article{
-	border:1px solid #ccc;
-	overflow:hidden;
+
+article {
+  border: 1px solid #ccc;
+  overflow: hidden;
 }
-header{
-	min-height:60px;
+
+header {
+  min-height: 60px;
 }
-h1{
-	margin-top:50px;
+
+h1 {
+  margin-top: 50px;
 }
-.container{
-	width:1000px;
+
+.container {
+  width: 1000px;
 }
-.left{
-	float:left;
+
+.left {
+  float: left;
 }
-.right{
-	float:right;
+
+.right {
+  float: right;
 }
-.input-xlarge{
-	width:345px;
+
+.input-xlarge {
+  width: 345px;
 }
-.qrWrapper{
-	padding:20px 20px 0 0;
+
+.qrWrapper {
+  padding: 20px 20px 0 0;
 }
-.qrCont{
-	min-height:350px;
-	margin-bottom:10px;
+
+.qrCont {
+  min-height: 350px;
+  margin-bottom: 10px;
 }
