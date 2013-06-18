@@ -17,14 +17,15 @@ object Application extends Controller {
   private[this] val encodingHints: Map[EncodeHintType, _] = Map(EncodeHintType.CHARACTER_SET -> "UTF-8")
 
   private[this] val initialRequest =
-    Request("https://www.powatag.com/cps/1234567890", 100, uppercase = true, ErrorCorrectionLevel.L)
+    Request("https://www.powatag.com/cps/1234567890", 100, uppercase = true, ErrorCorrectionLevel.L, 4)
 
   private[this] val form = Form(
     mapping(
       "contents" -> nonEmptyText,
       "size" -> number,
       "uppercase" -> boolean,
-      "ecLevel" -> enum[ErrorCorrectionLevel]
+      "ecLevel" -> enum[ErrorCorrectionLevel],
+      "quietZone" -> number
     )(Request.apply)(Request.unapply)
   )
 
@@ -43,7 +44,9 @@ object Application extends Controller {
   def post = Action(request => Redirect(routes.Application.home().url, request.body.asFormUrlEncoded.get))
 
   private[this] def render(r: Request) = {
-    val encodingHints = this.encodingHints + (EncodeHintType.ERROR_CORRECTION -> r.ecLevel)
+    val encodingHints = this.encodingHints +
+        (EncodeHintType.ERROR_CORRECTION -> r.ecLevel) +
+        (EncodeHintType.MARGIN -> r.quietZone)
     val data = if (r.uppercase) r.contents.toUpperCase(locale) else r.contents
 
     val qrCode = QREncoder.encode(data, encodingHints)

@@ -2,6 +2,7 @@ contents=Contents
 size=Size
 uppercase=Uppercase
 ecLevel=Error Correction Level
+quietZone=Quiet Zone
 com.google.zxing.qrcode.decoder.ErrorCorrectionLevel.L=Low
 com.google.zxing.qrcode.decoder.ErrorCorrectionLevel.M=Medium
 com.google.zxing.qrcode.decoder.ErrorCorrectionLevel.Q=Quartile
