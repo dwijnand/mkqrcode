@@ -29,23 +29,22 @@ object QREncoder {
   def render(qrCode: QRCode, hints: Map[EncodeHintType, _], size: Int): String = {
     val input = qrCode.getMatrix
     require(input != null)
+    require(input.getWidth == input.getHeight)
 
     val quietZoneAny = hints.getOrElse(EncodeHintType.MARGIN, 4)
     val quietZone = quietZoneAny.asInstanceOf[Int]
 
-    val bitMatrix = toBitMatrix(input, outputWidth = input.getWidth, outputHeight = input.getHeight,
-      topPadding = 0, leftPadding = 0, pixelWidth = 1, pixelHeight = 1)
+    val bitMatrix = toBitMatrix(input, outputSize = input.getWidth, padding = 0, pixelSize = 1)
 
     val bufferedImage = MatrixToImageWriter.toBufferedImage(bitMatrix)
     val scaledImage = bufferedImage.getScaledInstance(size, size, Image.SCALE_FAST)
 
-    val width = scaledImage.getWidth(null) + quietZone * 2
-    val height = scaledImage.getHeight(null) + quietZone * 2
-    val bi = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_BINARY)
+    val finalSize = scaledImage.getWidth(null) + quietZone * 2
+    val bi = new BufferedImage(finalSize, finalSize, BufferedImage.TYPE_BYTE_BINARY)
 
     val g = bi.createGraphics()
     g.setColor(Color.WHITE)
-    g.fillRect(0, 0, width, height)
+    g.fillRect(0, 0, finalSize, finalSize)
     g.setColor(Color.BLACK)
     g.drawImage(scaledImage, quietZone, quietZone, null)
     g.dispose()
@@ -57,28 +56,24 @@ object QREncoder {
     BaseEncoding.base64().encode(bytes)
   }
 
-  private[this] def toBitMatrix(input: ByteMatrix,
-                                outputWidth: Int, outputHeight: Int,
-                                topPadding: Int, leftPadding: Int,
-                                pixelWidth: Int, pixelHeight: Int) = {
-    val output = new BitMatrix(outputWidth, outputHeight)
-    val inputHeight = input.getHeight
-    val inputWidth = input.getWidth
+  private[this] def toBitMatrix(input: ByteMatrix, outputSize: Int, padding: Int, pixelSize: Int) = {
+    val output = new BitMatrix(outputSize, outputSize)
+    val inputSize = input.getWidth
 
     var inputY = 0
-    var outputY = topPadding
-    while (inputY < inputHeight) {
+    var outputY = padding
+    while (inputY < inputSize) {
       var inputX = 0
-      var outputX = leftPadding
-      while (inputX < inputWidth) {
+      var outputX = padding
+      while (inputX < inputSize) {
         if (input.get(inputX, inputY) == 1) {
-          output.setRegion(outputX, outputY, pixelWidth, pixelHeight)
+          output.setRegion(outputX, outputY, pixelSize, pixelSize)
         }
         inputX += 1
-        outputX += pixelWidth
+        outputX += pixelSize
       }
       inputY += 1
-      outputY += pixelHeight
+      outputY += pixelSize
     }
 
     output
