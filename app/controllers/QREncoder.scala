@@ -33,8 +33,8 @@ object QREncoder {
     val outputHeight = Math.max(height, qrHeight)
 
     val multiple = Math.min(outputWidth / qrWidth, outputHeight / qrHeight)
-    val leftPadding = (outputWidth - (inputWidth * multiple)) / 2
-    val topPadding = (outputHeight - (inputHeight * multiple)) / 2
+    val leftPadding = (outputWidth - inputWidth * multiple) / 2
+    val topPadding = (outputHeight - inputHeight * multiple) / 2
 
     val output = new BitMatrix(outputWidth, outputHeight)
 
