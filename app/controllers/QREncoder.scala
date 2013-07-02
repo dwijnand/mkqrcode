@@ -11,7 +11,7 @@ import com.google.zxing.qrcode.encoder.{Encoder, QRCode}
 import scala.collection.JavaConverters._
 
 import java.awt.image.BufferedImage
-import java.awt.{Color, Image}
+import java.awt.Image
 import java.io.ByteArrayOutputStream
 import javax.imageio.ImageIO
 

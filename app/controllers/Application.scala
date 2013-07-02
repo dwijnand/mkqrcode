@@ -45,8 +45,8 @@ object Application extends Controller {
 
   private[this] def render(r: Request) = {
     val encodingHints = this.encodingHints +
-        (EncodeHintType.ERROR_CORRECTION -> r.ecLevel) +
-        (EncodeHintType.MARGIN -> r.quietZone)
+      (EncodeHintType.ERROR_CORRECTION -> r.ecLevel) +
+      (EncodeHintType.MARGIN -> r.quietZone)
     val data = if (r.uppercase) r.contents.toUpperCase(locale) else r.contents
 
     val qrCode = QREncoder.encode(data, encodingHints)
