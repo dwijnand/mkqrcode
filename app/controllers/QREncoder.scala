@@ -18,7 +18,7 @@ import javax.imageio.ImageIO
 object QREncoder {
 
   def encode(contents: String, hints: Map[EncodeHintType, _] = Map()) = {
-    require(contents.length != 0, "Found empty contents")
+    require(contents.length != 0, "contents can't be empty")
 
     val ecLevelAny = hints.getOrElse(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L)
     val ecLevel = ecLevelAny.asInstanceOf[ErrorCorrectionLevel]
