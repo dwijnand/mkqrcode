@@ -17,6 +17,8 @@ import javax.imageio.ImageIO
 
 object QREncoder {
 
+  val defaultQuietZone = 4
+
   def encode(contents: String, hints: Map[EncodeHintType, _] = Map()) = {
     require(contents.length != 0, "contents can't be empty")
 
@@ -31,7 +33,7 @@ object QREncoder {
     require(input != null)
     require(input.getWidth == input.getHeight)
 
-    val quietZoneAny = hints.getOrElse(EncodeHintType.MARGIN, 4)
+    val quietZoneAny = hints.getOrElse(EncodeHintType.MARGIN, defaultQuietZone)
     val quietZone = quietZoneAny.asInstanceOf[Int]
 
     val bitMatrix = toBitMatrix(input, quietZone = quietZone)
@@ -52,7 +54,7 @@ object QREncoder {
     BaseEncoding.base64().encode(bytes)
   }
 
-  private[this] def toBitMatrix(input: ByteMatrix, quietZone: Int) = {
+  private[this] def toBitMatrix(input: ByteMatrix, quietZone: Int = defaultQuietZone) = {
     val inputSize = input.getWidth
     val outputSize = inputSize + quietZone * 2
     val output = new BitMatrix(outputSize, outputSize)
