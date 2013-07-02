@@ -53,9 +53,9 @@ object QREncoder {
   }
 
   private[this] def toBitMatrix(input: ByteMatrix, padding: Int) = {
-    val outputSize = input.getWidth + padding * 2
-    val output = new BitMatrix(outputSize, outputSize)
     val inputSize = input.getWidth
+    val outputSize = inputSize + padding * 2
+    val output = new BitMatrix(outputSize, outputSize)
 
     var inputY = 0
     var outputY = padding
