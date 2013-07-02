@@ -39,16 +39,10 @@ object QREncoder {
     val bitMatrix = toBitMatrix(input, quietZone = quietZone)
 
     val bufferedImage = MatrixToImageWriter.toBufferedImage(bitMatrix)
-    val scaledImage = bufferedImage.getScaledInstance(size, size, Image.SCALE_FAST)
-
-    val bi = new BufferedImage(scaledImage.getWidth(null), scaledImage.getHeight(null), BufferedImage.TYPE_BYTE_BINARY)
-
-    val g = bi.createGraphics()
-    g.drawImage(scaledImage, 0, 0, null)
-    g.dispose()
+    val scaledImage = bufferedImage.getScaledInstance(size, size, Image.SCALE_FAST).toBufferedImage
 
     val byteArrayOutputStream = new ByteArrayOutputStream()
-    ImageIO.write(bi, "png", byteArrayOutputStream)
+    ImageIO.write(scaledImage, "png", byteArrayOutputStream)
     val bytes = byteArrayOutputStream.toByteArray
 
     BaseEncoding.base64().encode(bytes)
@@ -77,4 +71,17 @@ object QREncoder {
 
     output
   }
+
+  implicit class ImageWithToBufferedImage(image: Image) {
+    def toBufferedImage = {
+      val bi = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_BYTE_BINARY)
+
+      val g = bi.createGraphics()
+      g.drawImage(image, 0, 0, null)
+      g.dispose()
+
+      bi
+    }
+  }
+
 }
